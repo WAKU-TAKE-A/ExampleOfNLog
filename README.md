@@ -1,7 +1,7 @@
 # Example of "NLog" (for 64bit)
 
 Example of "NLog" in Ironpython script.  
-The library of C# is used.
+The library of C# is used. Requires VisualStudio 2017 or higher.
 
 ## File
 

@@ -21,6 +21,7 @@ namespace ExampleOfNLog
             InitializeComponent();
 
             var ofd = new OpenFileDialog();
+            ofd.Title = "Select NLog.config.";
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
