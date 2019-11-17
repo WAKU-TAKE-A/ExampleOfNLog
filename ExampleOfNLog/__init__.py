@@ -44,6 +44,8 @@ for i in _lstPath:
 if _checkPath == False:
 	raise Exception("Error occured.")
 
+os.chdir(IRONPYTHON_NLOG)
+
 #
 # Import modules.
 #
@@ -56,6 +58,7 @@ import NLog
 #
 def getLogger(name="", config=None):
     if config != None:
+        config = os.path.abspath(config)
         NLog.LogManager.LoadConfiguration(config)
     return NLog.LogManager.GetLogger(name)
 
