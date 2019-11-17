@@ -17,7 +17,6 @@ The library of C# is used. Requires VisualStudio 2017 or higher.
 * Copy the "x64/debug/nlog" or "x64/release/nlog" folder to IronPython's "Lib" folder.
 * Environment variable "IRONPYTHON_HOME" is required. It is the installation location of IronPython.
 * "example.py" and "example.exe" are example program.
-  * After copying "NLog.config" to "c:/tmp/" folder, do the following.
 
 ```
 import nlog
