@@ -14,7 +14,7 @@ namespace ExampleOfNLog
 {
     public partial class Form1 : Form
     {
-        private Logger logger = null;
+        private Logger logger;
 
         public Form1()
         {
@@ -25,15 +25,15 @@ namespace ExampleOfNLog
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                LogManager.LoadConfiguration(ofd.FileName);
+                LogManager.Setup().LoadConfigurationFromFile(ofd.FileName);
                 logger = LogManager.GetLogger("logA");
 
-                logger.Trace("Trace");
-                logger.Debug("Debug");
-                logger.Info("Info");
-                logger.Warn("Warn");
-                logger.Error("Error");
-                logger.Fatal("Fatal");
+                logger.Trace("Trace (C#)");
+                logger.Debug("Debug (C#)");
+                logger.Info("Info (C#)");
+                logger.Warn("Warn (C#)");
+                logger.Error("Error (C#)");
+                logger.Fatal("Fatal (C#)");
 
 
                 MessageBox.Show("Finish.");

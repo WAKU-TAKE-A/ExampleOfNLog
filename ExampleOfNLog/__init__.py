@@ -7,15 +7,14 @@ NLog for IronPython.
 * "NLog.dll" is required.
 """
 
-__author__  = "Nishida Takehito <takehito.nishida@gmail.com>"
-__version__ = "0.9.0.0"
-__date__    = "2018/12/27"
+__author__  = "WAKU-TAKE-A <waku-take-a@ymail.ne.jp>"
+__version__ = "0.9.1.0"
+__date__    = "2026/01/17"
 
 #
 # append path.
 #
-import os
-import os.path as path
+from pathlib import Path
 from sys import path as systemPath
 from System import Environment as env
 IRONPYTHON_HOME = env.GetEnvironmentVariable("IRONPYTHON_HOME")
@@ -23,42 +22,38 @@ IRONPYTHON_HOME = env.GetEnvironmentVariable("IRONPYTHON_HOME")
 if IRONPYTHON_HOME is None:
     raise Exception("Error : Set path of IRONPYTHON_HOME.")
 
-IRONPYTHON_LIB = path.join(IRONPYTHON_HOME, "Lib")
-IRONPYTHON_DLLS = path.join(IRONPYTHON_HOME, "DLLs")
-IRONPYTHON_NLOG = path.join(IRONPYTHON_HOME, "Lib\\nlog")
+CURRENT_DIR = Path(__file__).resolve().parent
+
+IRONPYTHON_HOME_PATH = Path(IRONPYTHON_HOME)
+
+IRONPYTHON_LIB = IRONPYTHON_HOME_PATH / "Lib"
+IRONPYTHON_DLLS = IRONPYTHON_HOME_PATH / "DLLs"
+IRONPYTHON_NLOG = IRONPYTHON_HOME_PATH / "Lib" / "nlog"
 
 _lstPath = []
 _lstPath.append(IRONPYTHON_LIB)
 _lstPath.append(IRONPYTHON_DLLS)
 _lstPath.append(IRONPYTHON_NLOG)
 
-_checkPath = True
-
 for i in _lstPath:
-    if os.path.exists(i):
-        systemPath.append(i)
-    else:
-        _checkPath = False
-        print("There is no '" + i + "'.")
-
-if _checkPath == False:
-	raise Exception("Error occured.")
-
-os.chdir(IRONPYTHON_NLOG)
+    if not i.exists():
+        raise FileNotFoundError("Required directory not found: {0}. Please check your IRONPYTHON_HOME path.".format(i))
+    systemPath.append(str(i))
 
 #
 # Import modules.
 #
 import clr
-clr.AddReferenceToFile("NLog.dll")
+NLOG_DLL_PATH = CURRENT_DIR / "NLog.dll"
+clr.AddReferenceToFileAndPath(str(NLOG_DLL_PATH))
 import NLog
 
 #
 # Functions.
 #
 def getLogger(name="", config=None):
-    if config != None:
-        config = os.path.abspath(config)
+    if config is not None:
+        config = str(Path(config).absolute())
         NLog.LogManager.LoadConfiguration(config)
     return NLog.LogManager.GetLogger(name)
 
